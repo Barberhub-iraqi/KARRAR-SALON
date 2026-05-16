@@ -548,7 +548,8 @@ function updatePinDots(){
   }
 }
 function checkPin(){
-  if(pinEntry==='1998'){
+  const correctPin = localStorage.getItem('karrar_pin') || CONFIG.DEFAULT_PIN;
+  if(pinEntry===correctPin){
     document.getElementById('pinScreen').style.display='none';
     document.getElementById('loadingScreen').style.display='flex';
     initApp();
@@ -558,6 +559,17 @@ function checkPin(){
     document.getElementById('pinErr').classList.add('show');
     setTimeout(()=>document.getElementById('pinErr').classList.remove('show'),1000);
   }
+}
+function changePin(){
+  const oldPin=document.getElementById('oldPin').value.trim();
+  const newPin=document.getElementById('newPin').value.trim();
+  const correctPin=localStorage.getItem('karrar_pin')||CONFIG.DEFAULT_PIN;
+  if(oldPin!==correctPin){showToast('❌ الرمز الحالي غلط');return;}
+  if(newPin.length!==4||isNaN(newPin)){showToast('❌ الرمز الجديد لازم يكون 4 أرقام');return;}
+  localStorage.setItem('karrar_pin',newPin);
+  document.getElementById('oldPin').value='';
+  document.getElementById('newPin').value='';
+  showToast('✅ تم تغيير الرمز بنجاح');
 }
 
 // ============================================================
