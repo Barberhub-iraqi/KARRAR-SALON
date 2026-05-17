@@ -482,6 +482,11 @@ async function handleBook(){
   };
   data.bookings.push(booking);
 
+  // أرسل الإشعار فوراً بغض النظر عن نجاح الحفظ
+  notify('حجز جديد 🎉',
+    `حجز جديد!\n👤 ${name}\n✂️ ${svc.name}\n📅 ${selDateLabel}\n⏰ ${selSlot}\n💰 ${formatPrice(svc.price)}\n📞 ${phone}`
+  );
+
   try{
     await saveData();
   }catch(e){
@@ -490,10 +495,6 @@ async function handleBook(){
     btn.textContent=`✦ احجز ${selSlot} — ${formatPrice(svc.price)}`;
     isSaving=false;return;
   }
-
-  notify('حجز جديد 🎉',
-    `حجز جديد!\n👤 ${name}\n✂️ ${svc.name}\n📅 ${selDateLabel}\n⏰ ${selSlot}\n💰 ${formatPrice(svc.price)}\n📞 ${phone}`
-  );
 
   document.getElementById('s-name').textContent=name;
   document.getElementById('s-service').textContent=svc.name;
